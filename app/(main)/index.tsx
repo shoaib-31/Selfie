@@ -11,13 +11,16 @@ import {
 import { runOnJS } from "react-native-reanimated";
 import LinkButton from "@/components/LinkButton";
 import { CameraSide } from "@/constants/Enums";
-import { loadTensorflowModel } from "react-native-fast-tflite";
+import { useTensorflowModel } from "react-native-fast-tflite";
 import { useResizePlugin } from "vision-camera-resize-plugin";
 export default function Index() {
   //States
 
-  const [model, setModel] = React.useState<any>(null);
-  const [isModelReady, setIsModelReady] = React.useState(false);
+  const faceDetection = useTensorflowModel(
+    require("../../assets/face_detection_front.tflite")
+  );
+  const model = faceDetection.state === "loaded" ? faceDetection.model : null;
+  console.log(faceDetection);
 
   // Fucntions
   const { resize } = useResizePlugin();
@@ -41,16 +44,6 @@ export default function Index() {
       requestMicrophonePermission();
     }
     console.log("Permissions granted");
-    if (!isModelReady) {
-      (async () => {
-        const loadedModel = await loadTensorflowModel(
-          require("../../assets/face_detection_front.tflite")
-        );
-        console.log("Model Loaded");
-        setModel(loadedModel);
-        setIsModelReady(true);
-      })();
-    }
   }, [cameraPermission, microphonePermission]);
 
   const handleRequestPermission = async () => {
@@ -67,7 +60,7 @@ export default function Index() {
     (frame: any) => {
       "worklet";
 
-      if (!isModelReady || !model) return;
+      if (!model) return;
 
       const resized = resize(frame, {
         scale: {
@@ -84,7 +77,7 @@ export default function Index() {
         const detection_classes = outputs[1];
         const detection_scores = outputs[2];
         const num_detections = outputs[3];
-        // console.log(outputs);
+        // console.log(outputs[3]);
 
         console.log(`Detected ${num_detections[0]} objects!`);
 
