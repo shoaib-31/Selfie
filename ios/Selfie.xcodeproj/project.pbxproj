@@ -15,6 +15,7 @@
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		D05B3218009A42379CDE769D /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33ED0777C0D949D89558C5A4 /* noop-file.swift */; };
+		0DFA92F8F6884C888C86EE05 /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829D115AEF1A4D489795BD03 /* CoreML.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Selfie/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		33ED0777C0D949D89558C5A4 /* noop-file.swift */ = {isa = PBXFileReference; name = "noop-file.swift"; path = "Selfie/noop-file.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
 		7C8E84A4DEE54ABDA88DA221 /* Selfie-Bridging-Header.h */ = {isa = PBXFileReference; name = "Selfie-Bridging-Header.h"; path = "Selfie/Selfie-Bridging-Header.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		829D115AEF1A4D489795BD03 /* CoreML.framework */ = {isa = PBXFileReference; name = "CoreML.framework"; path = "System/Library/Frameworks/CoreML.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +43,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96905EF65AED1B983A6B3ABC /* libPods-Selfie.a in Frameworks */,
+				0DFA92F8F6884C888C86EE05 /* CoreML.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +71,7 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				58EEBF8E8E6FB1BC6CAF49B5 /* libPods-Selfie.a */,
+				829D115AEF1A4D489795BD03 /* CoreML.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -88,6 +92,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D65327D7A22EEC0BE12398D9 /* Pods */,
 				D7E4C46ADA2E9064B798F356 /* ExpoModulesProviders */,
+				70D4AD79FDAB4C7588DCAAD3 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -135,6 +140,14 @@
 			);
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
+		};
+		70D4AD79FDAB4C7588DCAAD3 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 

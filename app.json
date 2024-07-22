@@ -19,6 +19,7 @@
       },
       "bundleIdentifier": "com.shoaib31.Selfie"
     },
+    "assetBundlePatterns": ["**/*"],
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
@@ -40,6 +41,12 @@
           "cameraPermissionText": "$(PRODUCT_NAME) needs access to your Camera.",
           "enableMicrophonePermission": true,
           "microphonePermissionText": "$(PRODUCT_NAME) needs access to your Microphone."
+        }
+      ],
+      [
+        "react-native-fast-tflite",
+        {
+          "enableCoreMLDelegate": true
         }
       ]
     ],
