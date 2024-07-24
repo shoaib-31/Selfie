@@ -8,10 +8,13 @@ import {
   useFrameProcessor,
   useMicrophonePermission,
 } from "react-native-vision-camera";
-import { runOnJS } from "react-native-reanimated";
 import LinkButton from "@/components/LinkButton";
 import { CameraSide } from "@/constants/Enums";
-import { useTensorflowModel } from "react-native-fast-tflite";
+import {
+  Tensor,
+  TensorflowModel,
+  useTensorflowModel,
+} from "react-native-fast-tflite";
 import { useResizePlugin } from "vision-camera-resize-plugin";
 export default function Index() {
   //States
@@ -20,11 +23,20 @@ export default function Index() {
     require("../../assets/face_detection_front.tflite")
   );
   const model = faceDetection.state === "loaded" ? faceDetection.model : null;
-  console.log(faceDetection);
 
   // Fucntions
   const { resize } = useResizePlugin();
 
+  function tensorToString(tensor: Tensor): string {
+    return `\n  - ${tensor.dataType} ${tensor.name}[${tensor.shape}]`;
+  }
+  function modelToString(model: TensorflowModel): string {
+    return (
+      `TFLite Model (${model.delegate}):\n` +
+      `- Inputs: ${model.inputs.map(tensorToString).join("")}\n` +
+      `- Outputs: ${model.outputs.map(tensorToString).join("")}`
+    );
+  }
   // Permissions
 
   const {
@@ -44,6 +56,8 @@ export default function Index() {
       requestMicrophonePermission();
     }
     console.log("Permissions granted");
+    if (model == null) return;
+    console.log(`Model loaded! Shape:\n${modelToString(model)}]`);
   }, [cameraPermission, microphonePermission]);
 
   const handleRequestPermission = async () => {
@@ -59,13 +73,13 @@ export default function Index() {
   const frameProcessor = useFrameProcessor(
     (frame: any) => {
       "worklet";
+      // console.log("Frame Processor", frame);
 
       if (!model) return;
-
       const resized = resize(frame, {
         scale: {
-          width: 192,
-          height: 192,
+          width: 320,
+          height: 320,
         },
         pixelFormat: "rgb",
         dataType: "uint8",
@@ -73,24 +87,23 @@ export default function Index() {
 
       try {
         const outputs = model.runSync([resized]);
+        // console.log(outputs[1]);
+
         const detection_boxes = outputs[0];
         const detection_classes = outputs[1];
         const detection_scores = outputs[2];
         const num_detections = outputs[3];
-        // console.log(outputs[3]);
 
-        console.log(`Detected ${num_detections[0]} objects!`);
+        // console.log(`Detected ${num_detections[0]} objects!`);
 
         for (let i = 0; i < detection_boxes.length; i += 4) {
           const confidence = detection_scores[i / 4];
+
           if (confidence > 0.7) {
             const left = detection_boxes[i];
             const top = detection_boxes[i + 1];
             const right = detection_boxes[i + 2];
             const bottom = detection_boxes[i + 3];
-            console.log(
-              `Object detected at ${left}, ${top}, ${right}, ${bottom}`
-            );
           }
         }
       } catch (error: any) {}
